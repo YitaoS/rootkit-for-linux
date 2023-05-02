@@ -19,7 +19,7 @@
 
 static char* pid = "";
 static struct list_head *prevModule;
-static int isghidden = 0;
+static int ishidden = 0;
 module_param(pid, charp, 0);
 MODULE_PARM_DESC(pid, "pid of sneaky module");
 
